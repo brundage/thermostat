@@ -1,0 +1,3 @@
+describe Thermostat do
+
+end
