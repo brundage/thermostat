@@ -1,4 +1,5 @@
 [![Code Climate](https://codeclimate.com/github/brundage/thermostat/badges/gpa.svg)](https://codeclimate.com/github/brundage/thermostat)
+[![Build Status](https://travis-ci.org/brundage/thermostat.svg?branch=master)](https://travis-ci.org/brundage/thermostat)
 
 # Thermostat
 
