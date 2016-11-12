@@ -1,5 +1,7 @@
 require "thermostat/version"
 
-module Thermostat
+class Thermostat
+
+  autoload :StateMachine, File.join('thermostat', 'state_machine')
 
 end

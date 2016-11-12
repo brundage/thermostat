@@ -1,4 +1,4 @@
-module Thermostat
+class Thermostat
   VERSION = "0.1.0"
   def self.version; VERSION; end
 end
