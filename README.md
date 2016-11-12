@@ -1,3 +1,5 @@
+[![Code Climate](https://codeclimate.com/github/brundage/thermostat/badges/gpa.svg)](https://codeclimate.com/github/brundage/thermostat)
+
 # Thermostat
 
 Don't believe this README
@@ -20,7 +22,7 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Don't use this yet
 
 ## Development
 
