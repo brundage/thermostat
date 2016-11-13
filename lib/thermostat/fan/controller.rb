@@ -3,7 +3,7 @@ class Thermostat
     class Controller
 
       def initialize
-        self.state_machine = FanStateMachine.new self
+        self.state_machine = StateMachine.new self
       end
 
     private

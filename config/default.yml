@@ -1,0 +1,4 @@
+cooldown_seconds: 120
+initial_set_point: nil
+max_set_point: 26.7
+min_set_point: 18.3

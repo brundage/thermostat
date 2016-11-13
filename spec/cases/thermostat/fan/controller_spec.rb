@@ -1,4 +1,4 @@
-describe Thermostat::FanController do
+describe Thermostat::Fan::Controller do
 
 
   context 'initialization' do

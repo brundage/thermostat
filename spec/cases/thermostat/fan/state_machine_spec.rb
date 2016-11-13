@@ -1,6 +1,6 @@
 require 'helpers/state_machine'
 
-describe Thermostat::FanStateMachine do
+describe Thermostat::Fan::StateMachine do
 
   let(:controller) { nil }
   let(:machine) { described_class.new controller}

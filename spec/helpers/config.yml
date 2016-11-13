@@ -1,0 +1,4 @@
+cooldown_seconds: 4
+initial_set_point: 2
+max_set_point: 200
+min_set_point: 4

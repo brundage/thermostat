@@ -14,8 +14,9 @@ class Thermostat
 
     def initialize(*args)
       opts = args.last.is_a?(Hash) ? args.pop : Hash.new
-      super *args
+      super
       members.each do |k|
+        next if self.send(k)
         self.send "#{k}=", (opts[k] || self.class.send("default_#{k}") )
       end
     end
