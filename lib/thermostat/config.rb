@@ -1,5 +1,5 @@
 class Thermostat
-  class Config
+  class Config < Struct.new(:cooldown_seconds, :initial_set_point, :max_set_point, :min_set_point)
 
     COOLDOWN_SECONDS  = 120
     INITIAL_SET_POINT = 23.9
@@ -12,11 +12,11 @@ class Thermostat
     def self.default_min_set_point;     MIN_SET_POINT;     end
 
 
-    attr_accessor :cooldown_seconds, :initial_set_point, :max_set_point, :min_set_point
-
-    def initialize
-      [ :cooldown_seconds, :initial_set_point, :max_set_point, :min_set_point ].each do |m|
-        self.send "#{m}=", self.class.send("default_#{m}")
+    def initialize(*args)
+      opts = args.last.is_a?(Hash) ? args.pop : Hash.new
+      super *args
+      members.each do |k|
+        self.send "#{k}=", (opts[k] || self.class.send("default_#{k}") )
       end
     end
 
