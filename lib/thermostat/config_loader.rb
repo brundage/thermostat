@@ -20,8 +20,9 @@ class Thermostat
 
 
     def read
-      raise NoConfigError.new("Please suppply :filename or :stream to ConfigLoader") unless find_stream
-      hash = @stream_loader.load_stream(find_stream)[0]
+      raise NoConfigError.new("Please suppply :filename or :stream to ConfigLoader") unless open_stream
+      hash = @stream_loader.load_stream(@handle)[0]
+      @handle.close
       Config.new hash
     end
 
@@ -33,9 +34,14 @@ class Thermostat
     end
 
 
-    def find_stream
-      return @stream if @stream
-      File.open @filename if @filename
+    def open_stream
+      !! @handle and return @handle
+      if @stream
+        @handle = @stream
+      else
+        @handle = File.open @filename if @filename
+      end
+      @handle
     end
 
   end
