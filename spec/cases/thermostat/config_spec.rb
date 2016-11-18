@@ -4,8 +4,8 @@ describe Thermostat::Config do
   end
 
 
-  it 'initial_set_point defaults to 23.9' do
-    expect(subject[:initial_set_point]).to eq 23.9
+  it 'initial_set_point defaults to nil' do
+    expect(subject[:initial_set_point]).to eq nil
   end
 
 

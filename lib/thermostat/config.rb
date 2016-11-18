@@ -4,7 +4,7 @@ class Thermostat
     include StructInitializer
 
     COOLDOWN_SECONDS  = 120
-    INITIAL_SET_POINT = 23.9
+    INITIAL_SET_POINT = nil
     MAX_SET_POINT     = 26.7
     MIN_SET_POINT     = 18.3
 
