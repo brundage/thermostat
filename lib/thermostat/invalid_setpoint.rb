@@ -1,4 +1,4 @@
 class Thermostat
-  class InvalidSetpoint < RuntimeError
+  class InvalidSetpoint < ArgumentError
   end
 end
