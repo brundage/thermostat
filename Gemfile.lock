@@ -4,6 +4,11 @@ PATH
     thermostat (0.1.0)
       statesman
 
+PATH
+  remote: /home/brundage/work/rpi_gpio
+  specs:
+    rpi_gpio (0.3.2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -86,8 +91,9 @@ DEPENDENCIES
   coveralls
   guard-rspec
   rake (~> 10.0)
+  rpi_gpio!
   rspec (~> 3.0)
   thermostat!
 
 BUNDLED WITH
-   1.13.2
+   1.13.6

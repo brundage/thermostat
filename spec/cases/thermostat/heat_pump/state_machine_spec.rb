@@ -1,18 +1,16 @@
 require 'helpers/state_machine'
 
-class CoolThermostat
-  def cooling_cooldown_passed?; true; end
-  def heating_cooldown_passed?; true; end
-end
-
-
-class HotThermostat
-  def cooling_cooldown_passed?; false; end
-  def heating_cooldown_passed?; false; end
-end
-
-
 describe Thermostat::HeatPump::StateMachine do
+
+  let(:cool_thermostat_class) { Class.new do
+    def cooling_cooldown_passed?; true; end
+    def heating_cooldown_passed?; true; end
+  end }
+
+  let(:hot_thermostat_class) { Class.new do
+    def cooling_cooldown_passed?; false; end
+    def heating_cooldown_passed?; false; end
+  end }
 
   shared_examples_for 'a running thermostat' do
     [ :idle, :cooling, :heating ].each do |s|
@@ -46,7 +44,7 @@ describe Thermostat::HeatPump::StateMachine do
 
 
     context 'when the thermostat allows idle transition' do
-      let(:thermostat) { CoolThermostat.new }
+      let(:thermostat) { cool_thermostat_class.new }
       it "can transition to idle" do
         expect( machine.can_transition_to?(:idle)).to eq(true)
       end
@@ -54,7 +52,7 @@ describe Thermostat::HeatPump::StateMachine do
 
 
     context 'when the thermostat does not allow idle transition' do
-      let(:thermostat) { HotThermostat.new }
+      let(:thermostat) { hot_thermostat_class.new }
       it "can transition to idle" do
         expect( machine.can_transition_to?(:idle)).to eq(false)
       end

@@ -1,24 +1,26 @@
-class Llama < Struct.new(:length)
-  include Thermostat::StructInitializer
-  def self.default_length; 1; end
-end
 describe Thermostat::StructInitializer do
 
-  let(:default_length) { Llama.default_length }
-  let(:subject) { Llama.new length }
+  let(:default_fuzziness) { klass.default_fuzziness }
+  let(:klass) { Struct.new(:fuzziness) do
+                  include Thermostat::StructInitializer
+                  def self.default_fuzziness; 1; end
+                end
+              }
+  let(:subject) { klass.new fuzziness }
 
   context 'when not initialized' do
-    let(:length) { nil }
-    it 'has a default length' do
-      expect( subject.length ).to eq(default_length)
+    let(:fuzziness) { nil }
+    it 'has a default fuzziness' do
+      expect( subject.fuzziness ).to eq(default_fuzziness)
     end
   end
 
 
   context 'when initialized' do
-    let(:length) { 2 }
-    it 'overrides the default length' do
-      expect( subject.length ).to eq(length)
+    let(:fuzziness) { 2 }
+    it 'overrides the default fuzziness' do
+      expect(fuzziness).not_to eq(default_fuzziness)
+      expect( subject.fuzziness ).to eq(fuzziness)
     end
   end
 

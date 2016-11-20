@@ -1,5 +1,7 @@
 class Thermostat
   module StructInitializer
+    # Mixin for initializing a struct from a hash
+    # Looks for a #default_blark class method to set the default blark
 
     def initialize(*args)
       opts = args.last.is_a?(Hash) ? args.pop : Hash.new
