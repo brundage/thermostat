@@ -1,17 +1,15 @@
 module Thermostat::HardwareController::RaspberryPi
   class Relay < Thermostat::HardwareController::Relay
 
-    extend Thermostat::HardwareController::RaspberryPi::PinCleaner
     include Thermostat::HardwareController::RaspberryPi
 
-    attr_reader :pin, :pull
+    attr_reader :pin, :open_direction
 
     def initialize(pin, numbering: :bcm, open_direction: :low)
       self.pin = pin
-      self.pull = open_direction
+      self.open_direction = open_direction
       set_numbering numbering if numbering
-      initialize_pin pin, as: :output, initialize: opposite(pull)
-      ObjectSpace.define_finalizer( self, self.class.clean_up(pin) )
+      initialize_pin pin, as: :output, initialize: opposite(open_direction)
     end
 
 
@@ -23,21 +21,16 @@ module Thermostat::HardwareController::RaspberryPi
 
     def open
       super
-      gpio.send "set_#{open_direction}", pin
+      gpio.send :cleanup_pin, pin
     end
 
 
   private
 
-    attr_writer :pin, :pull
+    attr_writer :pin, :open_direction
 
     def close_direction
       opposite open_direction
-    end
-
-
-    def open_direction
-      pull
     end
 
   end

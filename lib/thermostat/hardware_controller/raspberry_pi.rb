@@ -4,7 +4,7 @@ class Thermostat
   class HardwareController
     module RaspberryPi
 
-      autoload :PinCleaner, File.join('thermostat', 'hardware_controller', 'raspberry_pi', 'pin_cleaner')
+      autoload :HeatPump, File.join('thermostat', 'hardware_controller', 'raspberry_pi', 'heat_pump')
       autoload :Relay, File.join('thermostat', 'hardware_controller', 'raspberry_pi', 'relay')
       autoload :Thermometer, File.join('thermostat', 'hardware_controller', 'raspberry_pi', 'thermometer')
 

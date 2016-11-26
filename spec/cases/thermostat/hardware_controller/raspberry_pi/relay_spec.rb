@@ -2,7 +2,7 @@ describe Thermostat::HardwareController::RaspberryPi::Relay do
 
   let(:default_open_direction) { :low }
   let(:gpio) { double :gpio,
-                      clean_up: nil,
+                      cleanup_pin: nil,
                       setup: nil,
                       set_high: nil,
                       set_low: nil,
@@ -29,7 +29,7 @@ describe Thermostat::HardwareController::RaspberryPi::Relay do
     let(:subject) { described_class.new pin }
 
     it 'has a default pull direction' do
-      expect( subject.pull ).to eq default_open_direction
+      expect( subject.open_direction ).to eq default_open_direction
     end
 
     it 'has a pin' do
@@ -42,7 +42,7 @@ describe Thermostat::HardwareController::RaspberryPi::Relay do
       let(:subject) { described_class.new pin, open_direction: open_direction }
       it 'initializes #pull' do
         expect(open_direction).not_to eq(default_open_direction)
-        expect(subject.pull).to eq(open_direction)
+        expect(subject.open_direction).to eq(open_direction)
       end
     end
 
@@ -83,15 +83,15 @@ describe Thermostat::HardwareController::RaspberryPi::Relay do
 
     context 'when pulling high to open' do
       let(:open_direction) { :high }
-      it 'sends #set_high to the gpio' do
-        expect(gpio).to have_received(:set_high)
+      it 'sends #cleanup_pin to the gpio' do
+        expect(gpio).to have_received(:cleanup_pin)
       end
     end
 
     context 'when pulling low to open' do
       let(:open_direction) { :low }
-      it 'sends #set_low to the gpio' do
-        expect(gpio).to have_received(:set_low)
+      it 'sends #cleanup_pin to the gpio' do
+        expect(gpio).to have_received(:cleanup_pin)
       end
     end
 

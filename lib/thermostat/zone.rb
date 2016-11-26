@@ -3,11 +3,11 @@ class Thermostat
 
     attr_reader :config, :fan, :heat_pump, :outside_sensor, :sensors, :set_point, :thermostat
 
-    def initialize(config: nil, fan: Fan.new, heat_pump: HeatPump.new, outside_sensor: Sensor.new, sensors: [], set_point: nil, thermostat: nil)
+    def initialize(config: nil, fan: Fan.new, heat_pump: nil, outside_sensor: Sensor.new, sensors: [], set_point: nil, thermostat: nil)
       raise ArgumentError.new("Need a thermostat") if thermostat.nil?
       @config         = config || thermostat.default_config
       @fan            = fan
-      @heat_pump      = heat_pump
+      @heat_pump      = heat_pump || HeatPump.new(controller: :blark)  # FIXME
       @outside_sensor = outside_sensor
       @sensors        = sensors
       @thermostat     = thermostat

@@ -26,7 +26,9 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "guard-rspec"
   spec.add_development_dependency "coveralls"
 
+  spec.add_dependency 'brogger'
   spec.add_dependency 'statesman'
-  sepc.add_dependency 'rpi_gpio'
+  spec.add_dependency 'ruby_i2c'
+#  sepc.add_dependency 'rpi_gpio'
 
 end

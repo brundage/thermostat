@@ -1,6 +1,5 @@
-class Thermostat
-  class HeatPump
-    class Controller
-    end
+class Thermostat::HeatPump
+  module Controller
+
   end
 end
