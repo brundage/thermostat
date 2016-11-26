@@ -11,6 +11,7 @@ class Thermostat
   autoload :InvalidSetpoint,    File.join('thermostat', 'invalid_setpoint')
   autoload :Logger,             File.join('thermostat', 'logger')
   autoload :Sensor,             File.join('thermostat', 'sensor')
+  autoload :StateMachineLogger, File.join('thermostat', 'state_machine_logger')
   autoload :StructInitializer,  File.join('thermostat', 'struct_initializer')
   autoload :Zone,               File.join('thermostat', 'zone')
 

@@ -4,7 +4,7 @@ class Thermostat
     attr_writer :logger
 
     # TODO Implement multi-logger
-    # http://stackoverflow.com/questions/6407141/how-can-i-have-ruby-logger-log-output-to-stdout-as-well-as-file
+    # http://stackoverflow.com/a/6410202
     def default_logger(level: :warn)
       Brogger.new(STDERR).tap do |logger|
         logger.level = level
