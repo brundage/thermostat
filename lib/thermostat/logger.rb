@@ -1,3 +1,4 @@
+require 'brogger'
 class Thermostat
   module Logger
 
@@ -14,7 +15,21 @@ class Thermostat
 
 
     def logger
-      @logger ||= default_logger
+      @logger = if self == Thermostat
+                  @logger || default_logger
+                else
+                  Thermostat.logger
+                end
+    end
+
+
+    def debug(&msg)
+      logger.debug(logging_progname) &msg
+    end
+
+
+    def logging_progname
+      self.class.name
     end
 
   end

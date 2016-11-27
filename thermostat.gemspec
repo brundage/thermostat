@@ -29,6 +29,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'brogger'
   spec.add_dependency 'statesman'
   spec.add_dependency 'ruby_i2c'
+  spec.add_dependency 'ruby-units'
 #  sepc.add_dependency 'rpi_gpio'
 
 end

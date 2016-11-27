@@ -1,6 +1,6 @@
 require 'statesman'
 class Thermostat
-  class HeatPump
+  class Simple
     class StateMachine
       include Statesman::Machine
 
@@ -9,6 +9,7 @@ class Thermostat
       state :heating
       state :heating_cooldown
       state :idle, initial: true
+      include Thermostat::StateMachineQuestions
 
       transition from: :idle,             to: [ :cooling, :heating ]
       transition from: :cooling,          to: [ :cooling_cooldown ]
@@ -16,14 +17,28 @@ class Thermostat
       transition from: :heating,          to: [ :heating_cooldown ]
       transition from: :heating_cooldown, to: [ :heating, :idle ]
 
-
-      guard_transition(from: :cooling_cooldown, to: :idle) do |thermostat|
-        thermostat.cooling_cooldown_passed?
+      after_transition(to: :idle) do |controller|
+        controller.off
       end
 
 
-      guard_transition(from: :heating_cooldown, to: :idle) do |thermostat|
-        thermostat.heating_cooldown_passed?
+      after_transition(to: :cooling) do |controller|
+        controller.cool
+      end
+
+
+      after_transition(to: :heating) do |controller|
+        controller.heat
+      end
+
+
+      guard_transition(from: :cooling_cooldown, to: :idle) do |controller|
+        controller.cooling_cooldown_passed?
+      end
+
+
+      guard_transition(from: :heating_cooldown, to: :idle) do |controller|
+        controller.heating_cooldown_passed?
       end
 
     end

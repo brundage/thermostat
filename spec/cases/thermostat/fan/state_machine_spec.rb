@@ -2,7 +2,7 @@ require 'helpers/state_machine'
 
 describe Thermostat::Fan::StateMachine do
 
-  let(:controller) { nil }
+  let(:controller) { double :controller, off: nil, on: nil }
   let(:machine) { described_class.new controller}
 
   it 'starts idle' do

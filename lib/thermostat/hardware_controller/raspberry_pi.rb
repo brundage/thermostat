@@ -3,10 +3,14 @@ require 'rpi_gpio'
 class Thermostat
   class HardwareController
     module RaspberryPi
+      include Thermostat::Logger
 
-      autoload :HeatPump, File.join('thermostat', 'hardware_controller', 'raspberry_pi', 'heat_pump')
       autoload :Relay, File.join('thermostat', 'hardware_controller', 'raspberry_pi', 'relay')
-      autoload :Thermometer, File.join('thermostat', 'hardware_controller', 'raspberry_pi', 'thermometer')
+
+#      def self.included(mod)
+#        RPi::GPIO.set_warnings(false)
+#      end
+
 
       def clean_up(pin)
         gpio.clean_up pin
@@ -14,6 +18,7 @@ class Thermostat
 
 
       def initialize_pin(pin, **args)
+        logger.debug(self.class.name) { "Setting pin #{pin} as #{args[:as]} initialized #{args[:initialize]}" }
         gpio.setup pin, as: args[:as], initialize: args[:initialize]
       end
 

@@ -1,6 +1,6 @@
 require 'helpers/state_machine'
 
-describe Thermostat::HeatPump::StateMachine do
+describe Thermostat::Simple::StateMachine do
 
   let(:cool_thermostat_class) { Class.new do
     def cooling_cooldown_passed?; true; end

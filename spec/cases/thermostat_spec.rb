@@ -42,4 +42,9 @@ describe Thermostat do
 
   end
 
+
+  it 'has an outside sensor' do
+    expect(subject).to respond_to :outside_sensor
+  end
+
 end

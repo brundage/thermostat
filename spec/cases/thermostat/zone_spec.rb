@@ -16,7 +16,24 @@ describe Thermostat::Zone do
   end
 
 
-  let(:subject) { described_class.new thermostat: thermostat }
+  let(:args) { { config: config,
+                 fan: fan,
+                 heat_pump: heat_pump,
+                 name: name,
+                 sensors: sensors,
+                 thermostat: thermostat,
+                 set_point: set_point
+              } }
+
+  let(:config) { nil }
+  let(:fan) { double :fan }
+  let(:heat_pump) { double :heat_pump }
+  let(:name) { :blark }
+  let(:sensor) { double :sensor }
+  let(:sensors) { [sensor] }
+  let(:subject) { described_class.new args }
+  let(:thermostat) { double :thermostat }
+  let(:set_point) { nil }
 
   context 'with a nil thermostat' do
     let(:thermostat) { nil }
@@ -41,22 +58,22 @@ describe Thermostat::Zone do
 
 
     it 'has one heat pump' do
-      expect( subject.heat_pump ).to be_a(Thermostat::HeatPump)
+      expect( subject.heat_pump ).not_to be_nil
     end
 
 
     it 'has one fan' do
-      expect( subject.fan ).to be_a(Thermostat::Fan)
+      expect( subject.fan ).not_to be_nil
+    end
+
+
+    it 'has a name' do
+      expect( subject.fan ).not_to be_nil
     end
 
 
     it 'has a sensor array' do
-      expect( subject.sensors ).to be_an(Array)
-    end
-
-
-    it 'has an outdoor sensor' do
-      expect( subject.outside_sensor ).to be_an(Thermostat::Sensor)
+      expect( subject.sensors ).to be_an Array
     end
 
 

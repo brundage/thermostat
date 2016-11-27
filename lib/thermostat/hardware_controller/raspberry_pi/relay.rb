@@ -1,36 +1,40 @@
 module Thermostat::HardwareController::RaspberryPi
-  class Relay < Thermostat::HardwareController::Relay
+  class Relay
 
+    include Thermostat::Logger
     include Thermostat::HardwareController::RaspberryPi
 
-    attr_reader :pin, :open_direction
+    attr_reader :pin, :close_direction
 
-    def initialize(pin, numbering: :bcm, open_direction: :low)
+    def initialize(pin, numbering: :bcm, close_direction: :low)
+      logger.debug(self.class.name) { "Setting up relay on pin #{pin} (numbering: #{numbering}, close_direction: #{close_direction})" }
       self.pin = pin
-      self.open_direction = open_direction
+      self.close_direction = close_direction
       set_numbering numbering if numbering
-      initialize_pin pin, as: :output, initialize: opposite(open_direction)
+      initialize_pin pin, as: :output, initialize: opposite(close_direction)
     end
 
 
     def close
-      super
+      logger.debug(self.class.name) { "sending gpio set_#{close_direction} on #{pin}" }
       gpio.send "set_#{close_direction}", pin
     end
+    alias_method :on, :close
 
 
     def open
-      super
-      gpio.send :cleanup_pin, pin
+      logger.debug(self.class.name) { "sending gpio clean_up #{pin}" }
+      gpio.send "set_#{open_direction}", pin
     end
+    alias_method :off, :open
 
 
   private
 
-    attr_writer :pin, :open_direction
+    attr_writer :pin, :close_direction
 
-    def close_direction
-      opposite open_direction
+    def open_direction
+      opposite close_direction
     end
 
   end
