@@ -1,6 +1,7 @@
 module Thermostat::HardwareController::RaspberryPi
   class Relay
 
+    extend Thermostat::HardwareController::RaspberryPi::PinCleaner
     include Thermostat::Logger
     include Thermostat::HardwareController::RaspberryPi
 
@@ -12,6 +13,7 @@ module Thermostat::HardwareController::RaspberryPi
       self.close_direction = close_direction
       set_numbering numbering if numbering
       initialize_pin pin, as: :output, initialize: opposite(close_direction)
+      ObjectSpace.define_finalizer( self, self.class.clean_up(pin) )
     end
 
 

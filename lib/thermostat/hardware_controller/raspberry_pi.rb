@@ -5,6 +5,7 @@ class Thermostat
     module RaspberryPi
       include Thermostat::Logger
 
+      autoload :PinCleaner, File.join('thermostat', 'hardware_controller', 'raspberry_pi', 'pin_cleaner')
       autoload :Relay, File.join('thermostat', 'hardware_controller', 'raspberry_pi', 'relay')
 
 #      def self.included(mod)
