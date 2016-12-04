@@ -4,6 +4,7 @@ module Thermostat::HardwareController::RaspberryPi
 
     def clean_up(pin,numbering=:bcm)
       proc {
+        Thermostat.logger.debug { "Cleaning raspberry pi pin #{pin}" }
         RPi::GPIO.set_numbering numbering
         RPi::GPIO.clean_up pin
      }

@@ -18,7 +18,6 @@ describe Thermostat::Zone do
 
   let(:args) { { config: config,
                  fan: fan,
-                 heat_pump: heat_pump,
                  name: name,
                  sensors: sensors,
                  thermostat: thermostat,
@@ -27,7 +26,6 @@ describe Thermostat::Zone do
 
   let(:config) { nil }
   let(:fan) { double :fan }
-  let(:heat_pump) { double :heat_pump }
   let(:name) { :blark }
   let(:sensor) { double :sensor }
   let(:sensors) { [sensor] }
@@ -54,11 +52,6 @@ describe Thermostat::Zone do
 
     it 'has the given thermostat' do
       expect(subject.thermostat).to eq(thermostat)
-    end
-
-
-    it 'has one heat pump' do
-      expect( subject.heat_pump ).not_to be_nil
     end
 
 

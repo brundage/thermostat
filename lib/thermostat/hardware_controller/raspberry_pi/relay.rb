@@ -2,7 +2,6 @@ module Thermostat::HardwareController::RaspberryPi
   class Relay
 
     extend Thermostat::HardwareController::RaspberryPi::PinCleaner
-    include Thermostat::Logger
     include Thermostat::HardwareController::RaspberryPi
 
     attr_reader :pin, :close_direction
@@ -12,21 +11,19 @@ module Thermostat::HardwareController::RaspberryPi
       self.pin = pin
       self.close_direction = close_direction
       set_numbering numbering if numbering
-      initialize_pin pin, as: :output, initialize: opposite(close_direction)
+      initialize_pin pin, as: :output, initialize: open_direction
       ObjectSpace.define_finalizer( self, self.class.clean_up(pin) )
     end
 
 
     def close
-      logger.debug(self.class.name) { "sending gpio set_#{close_direction} on #{pin}" }
-      gpio.send "set_#{close_direction}", pin
+      toggle close_direction
     end
     alias_method :on, :close
 
 
     def open
-      logger.debug(self.class.name) { "sending gpio clean_up #{pin}" }
-      gpio.send "set_#{open_direction}", pin
+      toggle open_direction
     end
     alias_method :off, :open
 
@@ -37,6 +34,12 @@ module Thermostat::HardwareController::RaspberryPi
 
     def open_direction
       opposite close_direction
+    end
+
+
+    def toggle(dir)
+      logger.debug(self.class.name) { "sending #{dir} on pin #{pin} to the gpio" }
+      gpio.send "set_#{dir}", pin
     end
 
   end

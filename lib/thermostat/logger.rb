@@ -15,21 +15,11 @@ class Thermostat
 
 
     def logger
-      @logger = if self == Thermostat
-                  @logger || default_logger
-                else
-                  Thermostat.logger
-                end
-    end
-
-
-    def debug(&msg)
-      logger.debug(logging_progname) &msg
-    end
-
-
-    def logging_progname
-      self.class.name
+      @logger ||= if self == Thermostat
+                    default_logger
+                  else
+                    Thermostat.logger
+                  end
     end
 
   end

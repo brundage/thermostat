@@ -3,13 +3,13 @@ require 'helpers/state_machine'
 describe Thermostat::Simple::StateMachine do
 
   let(:cool_thermostat_class) { Class.new do
-    def cooling_cooldown_passed?; true; end
-    def heating_cooldown_passed?; true; end
+    def cooldown_passed?; true; end
+    def toggle(*); end
   end }
 
   let(:hot_thermostat_class) { Class.new do
-    def cooling_cooldown_passed?; false; end
-    def heating_cooldown_passed?; false; end
+    def cooldown_passed?; false; end
+    def toggle(*); end
   end }
 
   shared_examples_for 'a running thermostat' do
@@ -17,6 +17,9 @@ describe Thermostat::Simple::StateMachine do
       it "can not transition to #{s}" do
         expect( machine.can_transition_to?(s)).to eq(false)
       end
+    end
+    it 'can transition to cooldown' do
+      expect( machine.can_transition_to?(:cooldown)).to eq(true)
     end
   end
 
@@ -31,15 +34,8 @@ describe Thermostat::Simple::StateMachine do
     end
 
 
-    it 'can not reverse' do
-      expect( machine.can_transition_to?(reverse_state)).to eq(false)
-    end
-
-
-    [ :cooling_cooldown, :heating_cooldown ].each do |s|
-      it "can not transition to #{s}" do
-        expect( machine.can_transition_to?(s)).to eq(false)
-      end
+    it "can not transition to cooldown" do
+      expect( machine.can_transition_to?(:cooldown)).to eq(false)
     end
 
 
@@ -77,10 +73,8 @@ describe Thermostat::Simple::StateMachine do
     end
 
 
-    [ :cooling_cooldown, :heating_cooldown, :idle ].each do |s|
-      it "can not transition to #{s}" do
-        expect( machine.can_transition_to?(s)).to eq(false)
-      end
+    it "can not transition to cooldown" do
+      expect( machine.can_transition_to?(:cooldown)).to eq(false)
     end
 
   end
@@ -93,16 +87,6 @@ describe Thermostat::Simple::StateMachine do
 
     it_behaves_like 'a running thermostat'
 
-
-    it "can transition to cooling_cooldown" do
-      expect( machine.can_transition_to?(:cooling_cooldown)).to eq(true)
-    end
-
-
-    it "can not transition to heating_cooldown" do
-      expect( machine.can_transition_to?(:heating_cooldown)).to eq(false)
-    end
-
   end
 
 
@@ -112,24 +96,13 @@ describe Thermostat::Simple::StateMachine do
     end
 
     it_behaves_like 'a running thermostat'
-
-
-    it "can transition to heating_cooldown" do
-      expect( machine.can_transition_to?(:heating_cooldown)).to eq(true)
-    end
-
-
-    it "can not transition to cooling_cooldown" do
-      expect( machine.can_transition_to?(:cooling_cooldown)).to eq(false)
-    end
-
   end
 
 
   context 'cooling_cooldown' do
     let(:previous_state) { :cooling }
     let(:reverse_state) { :heating }
-    let(:state) { :cooling_cooldown }
+    let(:state) { :cooldown }
     it_behaves_like 'a cooldown thermostat'
   end
 
@@ -137,7 +110,7 @@ describe Thermostat::Simple::StateMachine do
   context 'heating_cooldown' do
     let(:previous_state) { :heating }
     let(:reverse_state) { :cooling }
-    let(:state) { :heating_cooldown }
+    let(:state) { :cooldown }
     it_behaves_like 'a cooldown thermostat'
   end
 

@@ -3,42 +3,34 @@ class Thermostat
   class Simple
     class StateMachine
       include Statesman::Machine
+      extend Thermostat::StateMachineLogger
 
+      state :cooldown
       state :cooling
-      state :cooling_cooldown
+      state :fanning
       state :heating
-      state :heating_cooldown
       state :idle, initial: true
       include Thermostat::StateMachineQuestions
 
-      transition from: :idle,             to: [ :cooling, :heating ]
-      transition from: :cooling,          to: [ :cooling_cooldown ]
-      transition from: :cooling_cooldown, to: [ :cooling, :idle ]
-      transition from: :heating,          to: [ :heating_cooldown ]
-      transition from: :heating_cooldown, to: [ :heating, :idle ]
+      transition from: :idle,     to: [ :cooling, :fanning, :heating ]
+      transition from: :cooling,  to: [ :cooldown ]
+      transition from: :cooldown, to: [ :cooling, :fanning, :heating, :idle ]
+      transition from: :heating,  to: [ :cooldown ]
 
-      after_transition(to: :idle) do |controller|
-        controller.off
+      [ :cooldown, :cooling, :heating, :idle].each do |s|
+        before_transition(to: s) do |controller|
+          controller.toggle s
+        end
       end
 
 
-      after_transition(to: :cooling) do |controller|
-        controller.cool
+      guard_transition(from: :cooldown, to: :idle) do |controller|
+        controller.cooldown_passed?
       end
 
 
-      after_transition(to: :heating) do |controller|
-        controller.heat
-      end
-
-
-      guard_transition(from: :cooling_cooldown, to: :idle) do |controller|
-        controller.cooling_cooldown_passed?
-      end
-
-
-      guard_transition(from: :heating_cooldown, to: :idle) do |controller|
-        controller.heating_cooldown_passed?
+      guard_transition(from: :cooldown, to: :idle) do |controller|
+        controller.cooldown_passed?
       end
 
     end

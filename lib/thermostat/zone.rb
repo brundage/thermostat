@@ -3,7 +3,7 @@ class Thermostat
 
     include Logger
 
-    attr_reader :config, :fan, :heat_pump, :name, :sensors, :set_point, :thermostat
+    attr_reader :config, :fan, :name, :sensors, :set_point, :thermostat
 
     def initialize(**args)
       init_args(args).each_pair do |name,component|
@@ -11,7 +11,6 @@ class Thermostat
       end
       self.config         = args[:config] || thermostat.default_config
       self.fan            = args[:fan]
-      self.heat_pump      = args[:heat_pump]
       self.name           = args[:name]
       self.sensors        = args[:sensors]
       self.thermostat     = args[:thermostat]
@@ -37,7 +36,7 @@ class Thermostat
 
   private
 
-    attr_writer :config, :fan, :heat_pump, :name, :sensors, :thermostat
+    attr_writer :config, :fan, :name, :sensors, :thermostat
 
     def init_args(**args)
       required_init_args.map { |a| [a, args[a] ] }.to_h
@@ -45,7 +44,7 @@ class Thermostat
 
 
     def required_init_args
-      [ :fan, :heat_pump, :name, :sensors, :thermostat ]
+      [ :fan, :name, :sensors, :thermostat ]
     end
 
   end

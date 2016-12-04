@@ -17,7 +17,7 @@ describe Thermostat::StateMachineLogger do
   end
 
   it 'logs transitions' do
-    expect( object.logger ).to have_received(:debug).twice
+    expect(logger).to have_received(:debug).twice
   end
 
 end
