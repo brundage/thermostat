@@ -2,11 +2,7 @@ describe Thermostat::HardwareController::RaspberryPi do
 
   let(:klass) { Class.new { include Thermostat::HardwareController::RaspberryPi } }
   let(:subject) { klass.new }
-  let(:gpio) { double :gpio,
-                      clean_up: nil,
-                      setup: nil,
-                      set_numbering: nil
-             }
+  let(:gpio) { double :gpio, clean_up: nil, setup: nil, set_numbering: nil }
 
   before do
     allow(subject).to receive(:gpio).and_return(gpio)
