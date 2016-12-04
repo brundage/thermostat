@@ -38,53 +38,35 @@ describe Thermostat::HardwareController::RaspberryPi::Relay do
 
   end
 
-
-  describe 'closing' do
-    let(:pin) { 0 }
-    let(:subject) { described_class.new pin, close_direction: close_direction }
-
-    before do
-      subject.close
-    end
-
-    context 'when pulling high to close' do
-      let(:close_direction) { :high }
-      it 'sends #set_high to the gpio' do
-        expect(gpio).to have_received(:set_high)
-      end
-    end
-
-    context 'when pulling low to close' do
-      let(:close_direction) { :low }
-      it 'sends #set_low to the gpio' do
-        expect(gpio).to have_received(:set_low)
-      end
+  shared_examples_for 'opening or closing' do
+    it "sends the correct direction to the gpio" do
+      expect(gpio).to have_received(pull)
     end
   end
 
+  [ :close, :open ].each do |dir|
 
-  describe 'opening' do
-    let(:pin) { 0 }
-    let(:subject) { described_class.new pin, close_direction: close_direction }
-
-    before do
-      subject.open
-    end
-
-    context 'when pulling high to open' do
-      let(:close_direction) { :high }
-      it 'sends #set_low to the gpio' do
-        expect(gpio).to have_received(:set_low)
+    describe "#{dir}ing" do
+      let(:pin) { 0 }
+      let(:pull) { "set_#{dir == :close ? close_direction : open_direction}" }
+      let(:subject) { described_class.new pin, close_direction: close_direction }
+      before do
+        subject.send dir
       end
-    end
 
-    context 'when pulling low to open' do
-      let(:close_direction) { :low }
-      it 'sends #set_high to the gpio' do
-        expect(gpio).to have_received(:set_high)
+      context "when pulling high to close" do
+        let(:close_direction) { :high }
+        let(:open_direction)  { :low }
+        it_behaves_like 'opening or closing'
       end
-    end
 
+      context "when pulling low to close" do
+        let(:close_direction) { :low }
+        let(:open_direction)  { :high }
+        it_behaves_like 'opening or closing'
+      end
+
+    end
   end
 
 end
