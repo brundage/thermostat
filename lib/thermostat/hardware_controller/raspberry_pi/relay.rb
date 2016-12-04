@@ -36,8 +36,8 @@ module Thermostat::HardwareController::RaspberryPi
 
 
     def toggle(dir)
-      logger.debug(self.class.name) { "sending #{dir} on pin #{pin} to the gpio" }
-      gpio.send "set_#{dir}", pin
+      logger.debug(self.class.name) { "sending set_#{dir} on pin #{pin}" }
+      send "set_#{dir}", pin
     end
 
   end

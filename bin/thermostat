@@ -12,11 +12,11 @@ def relative_humidity_percent; @sensor.rh; end
 Thermostat.logger.level = :debug
 
 @sensor = RubyI2C::Device::SI70XX.new
-puts "It is #{temperature} with #{relative_humidity_percent.to_f}% relative humidity making the heat index #{heat_index}"
+puts "It is #{temperature >> "tempF"} with #{relative_humidity_percent.to_f}% relative humidity making the heat index #{heat_index >> "tempF"}"
 
-cool_controller = Thermostat::HardwareController::RaspberryPi::Relay.new(22)
+cool_controller = Thermostat::HardwareController::RaspberryPi::Relay.new(17)
 heat_controller = Thermostat::HardwareController::RaspberryPi::Relay.new(27)
-fan_controller = Thermostat::HardwareController::RaspberryPi::Relay.new(17)
+fan_controller = Thermostat::HardwareController::RaspberryPi::Relay.new(22)
 
 thermostat = Thermostat::Simple.new cooling_controller: cool_controller,
                                     fanning_controller: fan_controller,

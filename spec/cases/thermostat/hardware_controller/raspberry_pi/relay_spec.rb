@@ -1,20 +1,8 @@
 describe Thermostat::HardwareController::RaspberryPi::Relay do
 
   let(:default_close_direction) { :low }
-  let(:gpio) { double :gpio,
-                      clean_up: nil,
-                      setup: nil,
-                      set_high: nil,
-                      set_low: nil,
-                      set_numbering: nil
-             }
   let(:pin) { nil }
   let(:pull) { nil }
-
-  before do
-    allow_any_instance_of(Thermostat::HardwareController::RaspberryPi).to receive(:gpio).and_return(gpio)
-  end
-
 
   context 'with no initialization' do
     it 'raises an ArgumentError' do
@@ -39,8 +27,8 @@ describe Thermostat::HardwareController::RaspberryPi::Relay do
   end
 
   shared_examples_for 'opening or closing' do
-    it "sends the correct direction to the gpio" do
-      expect(gpio).to have_received(pull)
+    it "sends itself the correct direction" do
+      expect(subject).to have_received(pull)
     end
   end
 
@@ -51,6 +39,7 @@ describe Thermostat::HardwareController::RaspberryPi::Relay do
       let(:pull) { "set_#{dir == :close ? close_direction : open_direction}" }
       let(:subject) { described_class.new pin, close_direction: close_direction }
       before do
+        allow(subject).to receive(pull)
         subject.send dir
       end
 

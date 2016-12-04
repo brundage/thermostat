@@ -1,6 +1,7 @@
 class Thermostat
-  class Simple < Controller
+  class Simple
     # Basic 4 and 5-wire thermostats
+    include Thermostat::Logger
 
     autoload :StateMachine, File.join('thermostat', 'simple', 'state_machine')
 
@@ -22,7 +23,9 @@ class Thermostat
     def off; switch_to :idle; end
 
 
-    def cooldown_passed?; true; end
+    def cooldown_passed?
+      true
+    end
 
 
     def toggle(switch)
@@ -44,13 +47,22 @@ class Thermostat
         cooling_controller.off
         heating_controller.off
       else
-        logger.debug(self.class.name) { "Don't know how to toggle #{switch} to #{state}" }
+        logger.error(self.class.name) { "Don't know how to toggle #{switch} to #{state}" }
       end
     end
 
   private
 
     attr_accessor :cooling_controller, :fanning_controller, :heating_controller, :state_machine
+
+    def switch_to(setting)
+      logger.debug(self.class.name) { "Switching to #{setting}" }
+      if( state_machine.can_transition_to? setting )
+        state_machine.transition_to(setting)
+      else
+        logger.debug(self.class.name) { "State machine won't allow it" }
+      end
+    end
 
   end
 end
