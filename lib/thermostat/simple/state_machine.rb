@@ -3,7 +3,6 @@ class Thermostat
   class Simple
     class StateMachine
       include Statesman::Machine
-      extend Thermostat::StateMachineLogger
 
       state :cooldown
       state :cooling
@@ -16,6 +15,13 @@ class Thermostat
       transition from: :cooling,  to: [ :cooldown ]
       transition from: :cooldown, to: [ :cooling, :fanning, :heating, :idle ]
       transition from: :heating,  to: [ :cooldown ]
+
+
+      def initialize(object, options = { transition_class: Statesman::Adapters::MemoryTransition })
+        super
+        @storage_adapter = LoggingAdapter.new( @transition_class, object, self, options)
+      end
+
 
       [ :cooldown, :cooling, :heating, :idle].each do |s|
         before_transition(to: s) do |controller|

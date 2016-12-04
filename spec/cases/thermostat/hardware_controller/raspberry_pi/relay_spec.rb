@@ -28,21 +28,11 @@ describe Thermostat::HardwareController::RaspberryPi::Relay do
     let(:pin) { 0 }
     let(:subject) { described_class.new pin }
 
-    it 'has a default pull direction' do
-      expect( subject.close_direction ).to eq default_close_direction
-    end
-
-    it 'has a pin' do
-      expect( subject.pin ).to eq pin
-    end
-
-
     context 'and a pull initiaization' do
       let(:close_direction) { :high }
       let(:subject) { described_class.new pin, close_direction: close_direction }
       it 'initializes #pull' do
         expect(close_direction).not_to eq(default_close_direction)
-        expect(subject.close_direction).to eq(close_direction)
       end
     end
 

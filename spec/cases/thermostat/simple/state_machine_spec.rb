@@ -57,7 +57,7 @@ describe Thermostat::Simple::StateMachine do
 
 
   let(:machine) { described_class.new thermostat}
-  let(:thermostat) { nil }
+  let(:thermostat) { double :thermostat, toggle: nil }
 
   it 'starts idle' do
     expect( machine.current_state.intern ).to eq :idle

@@ -4,8 +4,6 @@ module Thermostat::HardwareController::RaspberryPi
     extend Thermostat::HardwareController::RaspberryPi::PinCleaner
     include Thermostat::HardwareController::RaspberryPi
 
-    attr_reader :pin, :close_direction
-
     def initialize(pin, numbering: :bcm, close_direction: :low)
       logger.debug(self.class.name) { "Setting up relay on pin #{pin} (numbering: #{numbering}, close_direction: #{close_direction})" }
       self.pin = pin
@@ -30,7 +28,7 @@ module Thermostat::HardwareController::RaspberryPi
 
   private
 
-    attr_writer :pin, :close_direction
+    attr_accessor :pin, :close_direction
 
     def open_direction
       opposite close_direction
