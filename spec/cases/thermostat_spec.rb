@@ -15,13 +15,7 @@ describe Thermostat do
 
 
   it 'has a class-level logger' do
-    expect(described_class.logger).to be_a Brogger
-  end
-
-
-  it 'allows you to change the class-level logger' do
-    described_class.logger = :llama
-    expect(described_class.logger).to eq :llama
+    expect(described_class.logger).to be_a Thermostat::Logger
   end
 
 

@@ -5,7 +5,7 @@ module Thermostat::HardwareController::RaspberryPi
     include Thermostat::HardwareController::RaspberryPi
 
     def initialize(pin, numbering: :bcm, close_direction: :low)
-      logger.debug(self.class.name) { "Setting up relay on pin #{pin} (numbering: #{numbering}, close_direction: #{close_direction})" }
+      logger.hardware(:debug) { "Setting up relay on pin #{pin} (numbering: #{numbering}, close_direction: #{close_direction})" }
       self.pin = pin
       self.close_direction = close_direction
       set_numbering numbering if numbering
@@ -36,7 +36,7 @@ module Thermostat::HardwareController::RaspberryPi
 
 
     def toggle(dir)
-      logger.debug(self.class.name) { "sending set_#{dir} on pin #{pin}" }
+      logger.hardware(:debug) { "sending set_#{dir} on pin #{pin}" }
       send "set_#{dir}", pin
     end
 

@@ -1,7 +1,7 @@
 class Thermostat::HardwareController
   module RaspberryPi
     extend Forwardable
-    include Thermostat::Logger
+    include Thermostat::Logging
 
     autoload :GPIO, File.join('thermostat', 'hardware_controller', 'raspberry_pi', 'gpio')
     autoload :PinCleaner, File.join('thermostat', 'hardware_controller', 'raspberry_pi', 'pin_cleaner')
@@ -11,7 +11,7 @@ class Thermostat::HardwareController
 
 
     def initialize_pin(pin, **args)
-      logger.debug(self.class.name) { "Setting pin #{pin} as #{args[:as]} initialized #{args[:initialize]}" }
+      logger.hardware(:debug) { "Setting pin #{pin} as #{args[:as]} initialized #{args[:initialize]}" }
       setup pin, as: args[:as], initialize: args[:initialize]
     end
 

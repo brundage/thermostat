@@ -43,7 +43,7 @@ class Thermostat::Sensor
       else
         m = "don't know how to handle a #{t.class} temperature"
         if defined? logger
-          logger.warn m
+          logger.sensor(:error) { m }
           return nil
         else
           raise m

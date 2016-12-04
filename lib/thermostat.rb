@@ -1,16 +1,14 @@
-require 'brogger'
 require "thermostat/version"
 
 class Thermostat
 
   autoload :Config,              File.join('thermostat', 'config')
   autoload :ConfigLoader,        File.join('thermostat', 'config_loader')
-  autoload :Controller,          File.join('thermostat', 'controller')
-  autoload :Fan,                 File.join('thermostat', 'fan')
   autoload :HardwareController,  File.join('thermostat', 'hardware_controller')
   autoload :HeatIndexCalculator, File.join('thermostat', 'heat_index_calculator')
   autoload :InvalidSetpoint,     File.join('thermostat', 'invalid_setpoint')
   autoload :Logger,              File.join('thermostat', 'logger')
+  autoload :Logging,             File.join('thermostat', 'logging')
   autoload :LoggingAdapter,      File.join('thermostat', 'logging_adapter')
   autoload :Sensor,              File.join('thermostat', 'sensor')
   autoload :Simple,              File.join('thermostat', 'simple')
@@ -18,7 +16,7 @@ class Thermostat
   autoload :StructInitializer,   File.join('thermostat', 'struct_initializer')
   autoload :Zone,                File.join('thermostat', 'zone')
 
-  extend Logger
+  extend Logging
 
   attr_reader :default_config
 

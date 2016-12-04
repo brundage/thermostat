@@ -2,7 +2,6 @@ PATH
   remote: .
   specs:
     thermostat (0.1.0)
-      brogger
       rpi_gpio
       ruby-units
       ruby_i2c
@@ -11,7 +10,6 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    brogger (0.1.0)
     coderay (1.1.1)
     coveralls (0.8.15)
       json (>= 1.8, < 3)

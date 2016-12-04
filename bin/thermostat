@@ -9,28 +9,31 @@ include Thermostat::HeatIndexCalculator
 def temperature; Unit.new(@sensor.temp, :tempC); end
 def relative_humidity_percent; @sensor.rh; end
 
-Thermostat.logger.level = :debug
+Thermostat.logger.level     = :debug
+Thermostat.logger.subsystem = :hardware
 
 @sensor = RubyI2C::Device::SI70XX.new
 puts "It is #{temperature >> "tempF"} with #{relative_humidity_percent.to_f}% relative humidity making the heat index #{heat_index >> "tempF"}"
 
-cool_controller = Thermostat::HardwareController::RaspberryPi::Relay.new(17)
-heat_controller = Thermostat::HardwareController::RaspberryPi::Relay.new(27)
-fan_controller = Thermostat::HardwareController::RaspberryPi::Relay.new(22)
+controller = Thermostat::Simple::Controller.new cool_relay: Thermostat::HardwareController::RaspberryPi::Relay.new(17),
+                                                fan_relay: Thermostat::HardwareController::RaspberryPi::Relay.new(22),
+                                                heat_relay: Thermostat::HardwareController::RaspberryPi::Relay.new(27),
+                                                cooldown_seconds: 0.25
 
-thermostat = Thermostat::Simple.new cooling_controller: cool_controller,
-                                    fanning_controller: fan_controller,
-                                    heating_controller: heat_controller,
-                                    name: :awesome
+thermostat = Thermostat::Simple.new controller: controller, name: :awesome
 
-thermostat.heat
-sleep 0.75
-thermostat.cooldown
-sleep 0.5
-thermostat.off
-sleep 0.75
-thermostat.cool
-sleep 0.75
-thermostat.cooldown
-sleep 0.5
-thermostat.off
+begin
+  thermostat.heat
+  sleep 0.75
+  thermostat.cooldown
+  sleep 0.5
+  thermostat.off
+  sleep 0.75
+  thermostat.cool
+  sleep 0.75
+  thermostat.cooldown
+  sleep 0.5
+  thermostat.off
+ensure
+  [ 17, 22, 27 ].each { |p| Thermostat::HardwareController::RaspberryPi::Relay.new(p).open }
+end

@@ -1,7 +1,7 @@
 class Thermostat
   class Zone
 
-    include Logger
+    include Logging
 
     attr_reader :config, :fan, :name, :sensors, :set_point, :thermostat
 
@@ -15,7 +15,7 @@ class Thermostat
       self.sensors        = args[:sensors]
       self.thermostat     = args[:thermostat]
       self.set_point      = args[:set_point]
-      logger.debug "zone #{self.name} initialized"
+      logger.thermostat(:debug) { "zone #{self.name} initialized" }
     end
 
 
