@@ -33,11 +33,11 @@ describe Thermostat::Logger do
       end
     end
 
-    it 'uses THERMOSTAT when the symbol is unrecognized' do
+    it 'uses NONE when the symbol is unrecognized' do
       sym = :blark
       expect(described_class.const_get(:SUBSYSTEM_MAPPING).has_key?(sym)).to be_falsey
       subject.subsystem = sym
-      expect( subject.subsystem).to eq described_class.const_get(:THERMOSTAT)
+      expect( subject.subsystem).to eq described_class.const_get(:NONE)
     end
 
   end 

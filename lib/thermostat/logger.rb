@@ -10,6 +10,8 @@ class Thermostat
       CONTROLLER    = 2  # Hardware controller messages
       SENSOR        = 3  # Temperature, humidity, etc
       THERMOSTAT    = 4  # General operation messages
+      NONE          = 5  # Default subsystem
+      QUIET         = 6  # Nothing
     end
     include Subsystem
 
@@ -25,9 +27,11 @@ class Thermostat
     # HARDWARE < STATE_MACHINE < CONTROLLER < SENSOR < THERMOSTAT
     SUBSYSTEM_MAPPING = { controller:    CONTROLLER,
                           hartware:      HARDWARE,
-                          thermostat:    THERMOSTAT,
+                          none:          NONE,
+                          quiet:         QUIET,
                           sensor:        SENSOR,
-                          state_machine: STATE_MACHINE
+                          state_machine: STATE_MACHINE,
+                          thermostat:    THERMOSTAT
                         }
 
     attr_reader :subsystem
@@ -89,7 +93,7 @@ class Thermostat
     def initialize(*)
       super
       self.formatter = Formatter.new
-      @subsystem = THERMOSTAT
+      @subsystem = NONE
     end
 
 
@@ -129,7 +133,7 @@ class Thermostat
 
   private
 
-    SUBSYSTEM_LABEL = %w(HARDWARE STATE_MACHINE CONTROLLER SENSOR THERMOSTAT ANY).each(&:freeze).freeze
+    SUBSYSTEM_LABEL = %w(HARDWARE STATE_MACHINE CONTROLLER SENSOR THERMOSTAT NONE QUIET).each(&:freeze).freeze
 
     def severity_mapping; SEVERITY_MAPPING; end
     def subsystem_mapping; SUBSYSTEM_MAPPING; end
@@ -146,7 +150,7 @@ class Thermostat
 
 
     def lookup_subsystem(s)
-      lookup(s, subsystem_mapping, THERMOSTAT)
+      lookup(s, subsystem_mapping, NONE)
     end
 
 

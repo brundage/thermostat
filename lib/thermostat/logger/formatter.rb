@@ -8,7 +8,7 @@ class Thermostat::Logger
 
     def format
       # time [progname.pid] subsystem.severity: msg
-      "%s [%s.%d] %13s.%5s: %s\n"
+      "%s [%s.%d] %13s.%-5s %s\n"
     end
 
 

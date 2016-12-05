@@ -14,6 +14,7 @@ class Thermostat
       self.controller = controller
       self.state_machine = StateMachine.new(self.controller)
       self.controller.state_machine = self.state_machine
+      logger.thermostat(:info) { "Initialized simple thermostat named #{self.name}" }
     end
 
 
@@ -31,11 +32,11 @@ class Thermostat
     attr_writer :controller, :state_machine
 
     def switch_to(setting)
-      logger.controller(:debug) { "Switching to #{setting}" }
+      logger.thermostat(:debug) { "Switching to #{setting}" }
       if( state_machine.can_transition_to? setting )
         state_machine.transition_to(setting)
       else
-        logger.controller(:debug) { "State machine won't allow it" }
+        logger.thermostat(:debug) { "State machine won't allow it" }
       end
     end
 

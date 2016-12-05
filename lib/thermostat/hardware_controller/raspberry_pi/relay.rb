@@ -6,8 +6,8 @@ module Thermostat::HardwareController::RaspberryPi
 
     def initialize(pin, numbering: :bcm, close_direction: :low)
       logger.hardware(:debug) { "Setting up relay on pin #{pin} (numbering: #{numbering}, close_direction: #{close_direction})" }
-      self.pin = pin
-      self.close_direction = close_direction
+      @pin = pin
+      @close_direction = close_direction
       set_numbering numbering if numbering
       initialize_pin pin, as: :output, initialize: open_direction
       ObjectSpace.define_finalizer( self, self.class.clean_up(pin) )
@@ -28,7 +28,7 @@ module Thermostat::HardwareController::RaspberryPi
 
   private
 
-    attr_accessor :pin, :close_direction
+    attr_reader :pin, :close_direction
 
     def open_direction
       opposite close_direction

@@ -27,6 +27,19 @@ Or install it yourself as:
 
 Don't use this yet
 
+## Dependencies
+[![Dependency Status](https://gemnasium.com/brundage/thermostat.png)](https://gemnasium.com/brundage/thermostat)
+
+### ruby >= 2.1
+
+For required keyword arguments
+
+1. [statesman](https://github.com/gocardless/statesman)
+1. [rpi_gpio](https://github.com/ClockVapor/rpi_gpio) (for raspberry pi controllers)
+1. [ruby_i2c](https://github.com/brundage/ruby-i2c)
+
+
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.

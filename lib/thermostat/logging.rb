@@ -3,10 +3,11 @@ class Thermostat
 
     # TODO Implement multi-logger
     # http://stackoverflow.com/a/6410202
-    def self.default_logger(level: :warn)
+    def self.default_logger(level: :warn, subsystem: :thermostat)
       Thermostat::Logger.new(STDERR).tap do |logger|
         logger.level = level
-        logger.progname = :thermostat
+        logger.progname = :rubostat
+        logger.subsystem = subsystem
       end
     end
 
