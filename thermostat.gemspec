@@ -30,9 +30,10 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "guard-rspec"
   spec.add_development_dependency "coveralls"
 
-  spec.add_runtime_dependency 'statesman'
+  spec.add_runtime_dependency 'barometer'
   spec.add_runtime_dependency 'ruby_i2c'
   spec.add_runtime_dependency 'ruby-units'
   spec.add_runtime_dependency 'rpi_gpio'
+  spec.add_runtime_dependency 'statesman'
 
 end
